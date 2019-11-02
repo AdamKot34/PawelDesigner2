@@ -95,7 +95,6 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 		if (zdarzenie.getSource()==(przycisk[0]) || zdarzenie.getSource()==(przycisk[1])
 				|| zdarzenie.getSource()==(przycisk[2]))
 		{
-			System.out.println("Test");
 			resetEtykiet();
 			/**
 			 * Wejście X0.
