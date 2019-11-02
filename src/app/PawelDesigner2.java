@@ -15,7 +15,8 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 	JProgressBar pasek = new JProgressBar();
 	JSlider[] slider = {new JSlider(JSlider.HORIZONTAL, 0, 10, 0),
 			new JSlider(JSlider.HORIZONTAL, 0, 10, 0)};
-	JButton[] przycisk = {new JButton("MIN-MAX"), new JButton("MAX-PROD")};
+	JButton[] przycisk = {new JButton("MIN-MAX"), new JButton("MAX-PROD"),
+			new JButton("MAX-AV")};
 	JRadioButton[] r = {new JRadioButton(), new JRadioButton(),
 			new JRadioButton(), new JRadioButton(), new JRadioButton(),
 			new JRadioButton(), new JRadioButton(), new JRadioButton(),
@@ -43,7 +44,7 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 	public PawelDesigner2()
 	{
 		setTitle("PawelDesigner2");
-		setSize(250,480);
+		setSize(250,510);
 		setLocation(350,0);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,7 +57,6 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 			slider[i].setMinorTickSpacing(1);
 			slider[i].setPaintLabels(true);
 			slider[i].setPaintTicks(true);
-			przycisk[i].addActionListener(this);
 			panel.add(etykieta[i]);
 			panel.add(slider[i]);
 		}
@@ -72,8 +72,9 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 		}
 		panel.add(etykietay);
 		panel.add(pasek);
-		for (int i=0;i<2;i++)
+		for (int i=0;i<3;i++)
 		{
+			przycisk[i].addActionListener(this);
 			panel.add(przycisk[i]);
 		}
 	}
@@ -91,8 +92,10 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 	 */
 	public void actionPerformed(ActionEvent zdarzenie)
 	{
-		if (zdarzenie.getSource()==(przycisk[0]) || zdarzenie.getSource()==(przycisk[1]))
+		if (zdarzenie.getSource()==(przycisk[0]) || zdarzenie.getSource()==(przycisk[1])
+				|| zdarzenie.getSource()==(przycisk[2]))
 		{
+			System.out.println("Test");
 			resetEtykiet();
 			/**
 			 * Wejście X0.
@@ -348,6 +351,101 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 				{
 					yD = yD2;
 				}
+				/**
+				 * Wyjście Y.
+				 */
+				int BM = 0, M = 25, S = 50, D = 75, BD = 100;
+				double yy = (yBM*BM+yM*M+yS*S+yD*D+yBD*BD)/(yBM+yM+yS+yD+yBD);
+				int y = (int) yy;
+				pasek.setValue(y);
+			}
+			/**
+			 * Metoda wnioskowania MAX-AV.
+			 */
+			if (zdarzenie.getSource()==(przycisk[2]))
+			{
+				double yBM = 0, yM1 = 0, yM2 = 0;
+				double yS1 = 0, yS2 = 0, yS3 = 0;
+				double yD1 = 0, yD2 = 0, yBD = 0;
+				if (x0M > 0 && x1M > 0)
+				{
+					r[0].setSelected(true);
+					er[0].setForeground(Color.BLACK);
+					yBM = x0M + x1M;
+				}
+				if (x0M > 0 && x1S > 0)
+				{
+					r[1].setSelected(true);
+					er[1].setForeground(Color.BLACK);
+					yM1 = x0M + x1S;
+				}
+				if (x0M > 0 && x1D > 0)
+				{
+					r[2].setSelected(true);
+					er[2].setForeground(Color.BLACK);
+					yS1 = x0M + x1D;
+				}
+				if (x0S > 0 && x1M > 0)
+				{
+					r[3].setSelected(true);
+					er[3].setForeground(Color.BLACK);
+					yM2 = x0S + x1M;
+				}
+				if (x0S > 0 && x1S > 0)
+				{
+					r[4].setSelected(true);
+					er[4].setForeground(Color.BLACK);
+					yS2 = x0S + x1S;
+				}
+				if (x0S > 0 && x1D > 0)
+				{
+					r[5].setSelected(true);
+					er[5].setForeground(Color.BLACK);
+					yD1 = x0S + x1D;
+				}
+				if (x0D > 0 && x1M > 0)
+				{
+					r[6].setSelected(true);
+					er[6].setForeground(Color.BLACK);
+					yS3 = x0D + x1M;
+				}
+				if (x0D > 0 && x1S > 0)
+				{
+					r[7].setSelected(true);
+					er[7].setForeground(Color.BLACK);
+					yD2 = x0D + x1S;
+				}
+				if (x0D > 0 && x1D > 0)
+				{
+					r[8].setSelected(true);
+					er[8].setForeground(Color.BLACK);
+					yBD = x0D + x1D;
+				}
+				double yM = 0, yS = 0, yD = 0;
+				yM = yM1;
+				if (yM2 > yM)
+				{
+					yM = yM2;
+				}
+				yS = yS1;
+				if (yS2 > yS)
+				{
+					yS = yS2;
+				}
+				if (yS3 > yS)
+				{
+					yS = yS3;
+				}
+				yD = yD1;
+				if (yD2 > yD)
+				{
+					yD = yD2;
+				}
+				yBM = yBM/2;
+				yM = yM/2;
+				yS = yS/2;
+				yD = yD/2;
+				yBD = yBD/2;
 				/**
 				 * Wyjście Y.
 				 */
