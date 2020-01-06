@@ -1,7 +1,9 @@
 package app; //nazwa pakietu
 
-import java.awt.*; //import bibliotek
-import java.awt.event.*;
+import java.awt.event.*; //import bibliotek
+import java.io.File;
+import java.io.PrintWriter;
+import java.util.Scanner;
 import javax.swing.*;
 
 /**
@@ -16,40 +18,21 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 	JSlider[] slider = {new JSlider(JSlider.HORIZONTAL, 0, 10, 0),
 			new JSlider(JSlider.HORIZONTAL, 0, 10, 0)};
 	JButton[] przycisk = {new JButton("MIN-MAX"), new JButton("MAX-PROD"),
-			new JButton("MAX-AV")};
-	JRadioButton[] r = {new JRadioButton(), new JRadioButton(),
-			new JRadioButton(), new JRadioButton(), new JRadioButton(),
-			new JRadioButton(), new JRadioButton(), new JRadioButton(),
-			new JRadioButton()};
-	JLabel[] er = {new JLabel("R0: IF X0 = M AND X1 = M THEN Y = BM"),
-			new JLabel("R1: IF X0 = M AND X1 = S THEN Y = M"),
-			new JLabel("R2: IF X0 = M AND X1 = D THEN Y = S"),
-			new JLabel("R3: IF X0 = S AND X1 = M THEN Y = M"),
-			new JLabel("R4: IF X0 = S AND X1 = S THEN Y = S"),
-			new JLabel("R5: IF X0 = S AND X1 = D THEN Y = D"),
-			new JLabel("R6: IF X0 = D AND X1 = M THEN Y = S"),
-			new JLabel("R7: IF X0 = D AND X1 = S THEN Y = D"),
-			new JLabel("R8: IF X0 = D AND X1 = D THEN Y = BD")};
+			new JButton("MAX-AV"), new JButton("Zapisz")};
 	JLabel[] etykieta = {new JLabel("X0"), new JLabel("X1")};
-	JLabel[] etykietar = {new JLabel("  M       BM"),
-			new JLabel("          M"), new JLabel("          S"),
-			new JLabel("  S         M"), new JLabel("           S"),
-			new JLabel("          D"), new JLabel("  D         S"),
-			new JLabel("           D"), new JLabel("        BD")};
-	JLabel etykietarr = new JLabel("X0/X1         M                     S                    D");
 	JLabel etykietay = new JLabel("           Y");
+	static JTextArea reguly = new JTextArea(9,20);
 	/**
 	 * Konstruktor służy do stworzenia okna programu.
 	 */
 	public PawelDesigner2()
 	{
 		setTitle("PawelDesigner2");
-		setSize(250,510);
+		setSize(250,375);
 		setLocation(350,0);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().add(panel);
-		resetEtykiet();
 		pasek.setStringPainted(true);
 		for (int i=0;i<2;i++)
 		{
@@ -60,30 +43,13 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 			panel.add(etykieta[i]);
 			panel.add(slider[i]);
 		}
-		panel.add(etykietarr);
-		for (int i=0;i<9;i++)
-		{
-			panel.add(etykietar[i]);
-			panel.add(r[i]);
-		}
-		for (int i=0;i<9;i++)
-		{
-			panel.add(er[i]);
-		}
+		panel.add(reguly);
 		panel.add(etykietay);
 		panel.add(pasek);
-		for (int i=0;i<3;i++)
+		for (int i=0;i<4;i++)
 		{
 			przycisk[i].addActionListener(this);
 			panel.add(przycisk[i]);
-		}
-	}
-	private void resetEtykiet()
-	{
-		for (int i=0;i<9;i++)
-		{
-			r[i].setSelected(false);
-			er[i].setForeground(Color.LIGHT_GRAY);
 		}
 	}
 	/**
@@ -95,7 +61,6 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 		if (zdarzenie.getSource()==(przycisk[0]) || zdarzenie.getSource()==(przycisk[1])
 				|| zdarzenie.getSource()==(przycisk[2]))
 		{
-			resetEtykiet();
 			/**
 			 * Wejście X0.
 			 */
@@ -152,8 +117,6 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 				double yD1 = 0, yD2 = 0, yBD = 0;
 				if (x0M > 0 && x1M > 0)
 				{
-					r[0].setSelected(true);
-					er[0].setForeground(Color.BLACK);
 					yBM = x0M;
 					if (x1M < yBM)
 					{
@@ -162,8 +125,6 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 				}
 				if (x0M > 0 && x1S > 0)
 				{
-					r[1].setSelected(true);
-					er[1].setForeground(Color.BLACK);
 					yM1 = x0M;
 					if (x1S < yM1)
 					{
@@ -172,8 +133,6 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 				}
 				if (x0M > 0 && x1D > 0)
 				{
-					r[2].setSelected(true);
-					er[2].setForeground(Color.BLACK);
 					yS1 = x0M;
 					if (x1D < yS1)
 					{
@@ -182,8 +141,6 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 				}
 				if (x0S > 0 && x1M > 0)
 				{
-					r[3].setSelected(true);
-					er[3].setForeground(Color.BLACK);
 					yM2 = x0S;
 					if (x1M < yM2)
 					{
@@ -192,8 +149,6 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 				}
 				if (x0S > 0 && x1S > 0)
 				{
-					r[4].setSelected(true);
-					er[4].setForeground(Color.BLACK);
 					yS2 = x0S;
 					if (x1S < yS2)
 					{
@@ -202,8 +157,6 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 				}
 				if (x0S > 0 && x1D > 0)
 				{
-					r[5].setSelected(true);
-					er[5].setForeground(Color.BLACK);
 					yD1 = x0S;
 					if (x1D < yD1)
 					{
@@ -212,8 +165,6 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 				}
 				if (x0D > 0 && x1M > 0)
 				{
-					r[6].setSelected(true);
-					er[6].setForeground(Color.BLACK);
 					yS3 = x0D;
 					if (x1M < yS3)
 					{
@@ -222,8 +173,6 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 				}
 				if (x0D > 0 && x1S > 0)
 				{
-					r[7].setSelected(true);
-					er[7].setForeground(Color.BLACK);
 					yD2 = x0D;
 					if (x1S < yD2)
 					{
@@ -232,8 +181,6 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 				}
 				if (x0D > 0 && x1D > 0)
 				{
-					r[8].setSelected(true);
-					er[8].setForeground(Color.BLACK);
 					yBD = x0D;
 					if (x1D < yBD)
 					{
@@ -278,56 +225,38 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 				double yD1 = 0, yD2 = 0, yBD = 0;
 				if (x0M > 0 && x1M > 0)
 				{
-					r[0].setSelected(true);
-					er[0].setForeground(Color.BLACK);
 					yBM = x0M * x1M;
 				}
 				if (x0M > 0 && x1S > 0)
 				{
-					r[1].setSelected(true);
-					er[1].setForeground(Color.BLACK);
 					yM1 = x0M * x1S;
 				}
 				if (x0M > 0 && x1D > 0)
 				{
-					r[2].setSelected(true);
-					er[2].setForeground(Color.BLACK);
 					yS1 = x0M * x1D;
 				}
 				if (x0S > 0 && x1M > 0)
 				{
-					r[3].setSelected(true);
-					er[3].setForeground(Color.BLACK);
 					yM2 = x0S * x1M;
 				}
 				if (x0S > 0 && x1S > 0)
 				{
-					r[4].setSelected(true);
-					er[4].setForeground(Color.BLACK);
 					yS2 = x0S * x1S;
 				}
 				if (x0S > 0 && x1D > 0)
 				{
-					r[5].setSelected(true);
-					er[5].setForeground(Color.BLACK);
 					yD1 = x0S * x1D;
 				}
 				if (x0D > 0 && x1M > 0)
 				{
-					r[6].setSelected(true);
-					er[6].setForeground(Color.BLACK);
 					yS3 = x0D * x1M;
 				}
 				if (x0D > 0 && x1S > 0)
 				{
-					r[7].setSelected(true);
-					er[7].setForeground(Color.BLACK);
 					yD2 = x0D * x1S;
 				}
 				if (x0D > 0 && x1D > 0)
 				{
-					r[8].setSelected(true);
-					er[8].setForeground(Color.BLACK);
 					yBD = x0D * x1D;
 				}
 				double yM = 0, yS = 0, yD = 0;
@@ -368,56 +297,38 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 				double yD1 = 0, yD2 = 0, yBD = 0;
 				if (x0M > 0 && x1M > 0)
 				{
-					r[0].setSelected(true);
-					er[0].setForeground(Color.BLACK);
 					yBM = x0M + x1M;
 				}
 				if (x0M > 0 && x1S > 0)
 				{
-					r[1].setSelected(true);
-					er[1].setForeground(Color.BLACK);
 					yM1 = x0M + x1S;
 				}
 				if (x0M > 0 && x1D > 0)
 				{
-					r[2].setSelected(true);
-					er[2].setForeground(Color.BLACK);
 					yS1 = x0M + x1D;
 				}
 				if (x0S > 0 && x1M > 0)
 				{
-					r[3].setSelected(true);
-					er[3].setForeground(Color.BLACK);
 					yM2 = x0S + x1M;
 				}
 				if (x0S > 0 && x1S > 0)
 				{
-					r[4].setSelected(true);
-					er[4].setForeground(Color.BLACK);
 					yS2 = x0S + x1S;
 				}
 				if (x0S > 0 && x1D > 0)
 				{
-					r[5].setSelected(true);
-					er[5].setForeground(Color.BLACK);
 					yD1 = x0S + x1D;
 				}
 				if (x0D > 0 && x1M > 0)
 				{
-					r[6].setSelected(true);
-					er[6].setForeground(Color.BLACK);
 					yS3 = x0D + x1M;
 				}
 				if (x0D > 0 && x1S > 0)
 				{
-					r[7].setSelected(true);
-					er[7].setForeground(Color.BLACK);
 					yD2 = x0D + x1S;
 				}
 				if (x0D > 0 && x1D > 0)
 				{
-					r[8].setSelected(true);
-					er[8].setForeground(Color.BLACK);
 					yBD = x0D + x1D;
 				}
 				double yM = 0, yS = 0, yD = 0;
@@ -454,6 +365,23 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 				pasek.setValue(y);
 			}
 		}
+		/**
+		 * Zapis reguł rozmytych.
+		 */
+		if (zdarzenie.getSource()==(przycisk[3]))
+		{
+			try
+			{
+				PrintWriter plik = new PrintWriter("reguly.txt");
+				String dane = reguly.getText();
+				plik.println(dane);
+				plik.close();
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
 	}
 	/**
 	 * Metoda main() inicjuje działanie programu.
@@ -463,5 +391,33 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 	{
 		PawelDesigner2 program = new PawelDesigner2();
 		program.setVisible(true);
+		/**
+		 * Odczyt reguł rozmytych.
+		 */
+		try
+		{
+			File plik = new File("reguly.txt");
+			Scanner skaner = new Scanner(plik);
+			String dane = "";
+			int i = 0;
+			while (skaner.hasNextLine())
+            {
+                if (i == 0)
+                {
+                	dane = dane + skaner.nextLine();
+                	i = 1;
+                }
+                else
+                {
+                	dane = dane + "\n" + skaner.nextLine();
+                }
+            }
+			reguly.setText(dane);
+			skaner.close();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 }
