@@ -22,10 +22,10 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 	JButton[] przycisk = {new JButton("MIN-MAX"), new JButton("MAX-PROD"),
 			new JButton("MAX-AV"), new JButton("Zapisz")};
 	JLabel[] etykieta = {new JLabel("X0"), new JLabel("X1")};
-	JLabel[] etykietar = {new JLabel("R0"), new JLabel("R1"), new JLabel("R2"),
+	JLabel etykietay = new JLabel("           Y");
+	static JLabel[] etykietar = {new JLabel("R0"), new JLabel("R1"), new JLabel("R2"),
 			new JLabel("R3"), new JLabel("R4"), new JLabel("R5"),
 			new JLabel("R6"), new JLabel("R7"), new JLabel("R8")};
-	JLabel etykietay = new JLabel("           Y");
 	static JTextArea reguly = new JTextArea(9,20);
 	/**
 	 * Konstruktor służy do stworzenia okna programu.
@@ -61,7 +61,7 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 			panel.add(przycisk[i]);
 		}
 	}
-	private void resetEtykiet()
+	private static void resetEtykiet()
 	{
 		for (int i=0;i<9;i++)
 		{
@@ -1129,6 +1129,7 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 	{
 		PawelDesigner2 program = new PawelDesigner2();
 		program.setVisible(true);
+		resetEtykiet();
 		/**
 		 * Odczyt reguł rozmytych.
 		 */
