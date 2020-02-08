@@ -2,10 +2,12 @@ package app; //nazwa pakietu
 
 import java.awt.*; //import bibliotek
 import java.awt.event.*;
+import java.awt.image.*;
 import java.io.File;
 import java.io.PrintWriter;
 import java.nio.file.*;
 import java.util.Scanner;
+import javax.imageio.*;
 import javax.swing.*;
 
 /**
@@ -78,7 +80,6 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 				|| zdarzenie.getSource()==(przycisk[2]))
 		{
 			resetEtykiet();
-			System.out.println("---------");
 			/**
 			 * Wejście X0.
 			 */
@@ -100,9 +101,6 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 						x0S = (10-i)/5.0;
 						x0D = (i-5)/5.0;
 					}
-					System.out.println("x0M = " +x0M);
-					System.out.println("x0S = " +x0S);
-					System.out.println("x0D = " +x0D);
 				}
 			}
 			/**
@@ -126,10 +124,61 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 						x1S = (10-i)/5.0;
 						x1D = (i-5)/5.0;
 					}
-					System.out.println("x1M = " +x1M);
-					System.out.println("x1S = " +x1S);
-					System.out.println("x1D = " +x1D);
 				}
+			}
+			/**
+			 * Wykresy wejść X0 i X1.
+			 */
+			try
+			{
+		        double x0Md = x0M*100;
+		        double x0Sd = x0S*100;
+		        double x0Dd = x0D*100;
+		        double x1Md = x1M*100;
+		        double x1Sd = x1S*100;
+		        double x1Dd = x1D*100;
+		        int x0Mi = (int) x0Md;
+		        int x0Si = (int) x0Sd;
+		        int x0Di = (int) x0Dd;
+		        int x1Mi = (int) x1Md;
+		        int x1Si = (int) x1Sd;
+		        int x1Di = (int) x1Dd;
+		        int szerokosc = 400;
+		        int wysokosc = 400;
+		        File plikx = new File("X.png");
+		        File plikx0 = new File("X0.png");
+		        File plikx1 = new File("X1.png");
+		        BufferedImage obrazx = new BufferedImage(szerokosc, wysokosc,
+		        		BufferedImage.TYPE_INT_ARGB);
+		        BufferedImage obrazx0 = new BufferedImage(szerokosc, wysokosc,
+		        		BufferedImage.TYPE_INT_ARGB);
+		        BufferedImage obrazx1 = new BufferedImage(szerokosc, wysokosc,
+		        		BufferedImage.TYPE_INT_ARGB);
+	            obrazx = ImageIO.read(plikx);
+	            ImageIO.write(obrazx, "png", plikx0);
+	            obrazx0 = ImageIO.read(plikx0);
+	            ImageIO.write(obrazx, "png", plikx1);
+	            obrazx1 = ImageIO.read(plikx1);
+	            Graphics2D grafikax0 = obrazx0.createGraphics();
+	            grafikax0.setColor(Color.BLUE);
+	            grafikax0.drawLine(50, 150, 50, 150-x0Mi);
+	            grafikax0.setColor(Color.BLACK);
+	            grafikax0.drawLine(100, 150, 100, 150-x0Si);
+	            grafikax0.setColor(Color.RED);
+	            grafikax0.drawLine(150, 150, 150, 150-x0Di);
+	            ImageIO.write(obrazx0, "png", plikx0);
+	            Graphics2D grafikax1 = obrazx1.createGraphics();
+	            grafikax1.setColor(Color.BLUE);
+	            grafikax1.drawLine(50, 150, 50, 150-x1Mi);
+	            grafikax1.setColor(Color.BLACK);
+	            grafikax1.drawLine(100, 150, 100, 150-x1Si);
+	            grafikax1.setColor(Color.RED);
+	            grafikax1.drawLine(150, 150, 150, 150-x1Di);
+	            ImageIO.write(obrazx1, "png", plikx1);
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
 			}
 			/**
 			 * Metoda wnioskowania MIN-MAX.
@@ -459,11 +508,42 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 							yBD = yYBD[i];
 						}
 					}
-					System.out.println("yBM = " +yBM);
-					System.out.println("yM = " +yM);
-					System.out.println("yS = " +yS);
-					System.out.println("yD = " +yD);
-					System.out.println("yBD = " +yBD);
+					/**
+					 * Wykres wyjścia Y.
+					 */
+					double yBMd = yBM*100;
+			        double yMd = yM*100;
+			        double ySd = yS*100;
+			        double yDd = yD*100;
+			        double yBDd = yBD*100;
+			        int yBMi = (int) yBMd;
+			        int yMi = (int) yMd;
+			        int ySi = (int) ySd;
+			        int yDi = (int) yDd;
+			        int yBDi = (int) yBDd;
+			        int szerokosc = 400;
+			        int wysokosc = 400;
+			        File plikx = new File("X.png");
+			        File pliky = new File("Y.png");
+			        BufferedImage obrazx = new BufferedImage(szerokosc, wysokosc,
+			        		BufferedImage.TYPE_INT_ARGB);
+			        BufferedImage obrazy = new BufferedImage(szerokosc, wysokosc,
+			        		BufferedImage.TYPE_INT_ARGB);
+		            obrazx = ImageIO.read(plikx);
+		            ImageIO.write(obrazx, "png", pliky);
+		            obrazy = ImageIO.read(pliky);
+		            Graphics2D grafikay = obrazy.createGraphics();
+		            grafikay.setColor(Color.CYAN);
+		            grafikay.drawLine(0, 150, 0, 150-yBMi);
+		            grafikay.setColor(Color.BLUE);
+		            grafikay.drawLine(50, 150, 50, 150-yMi);
+		            grafikay.setColor(Color.BLACK);
+		            grafikay.drawLine(100, 150, 100, 150-ySi);
+		            grafikay.setColor(Color.RED);
+		            grafikay.drawLine(150, 150, 150, 150-yDi);
+		            grafikay.setColor(Color.ORANGE);
+		            grafikay.drawLine(200, 150, 200, 150-yBDi);
+		            ImageIO.write(obrazy, "png", pliky);
 					/**
 					 * Wyjście Y.
 					 */
@@ -769,11 +849,42 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 							yBD = yYBD[i];
 						}
 					}
-					System.out.println("yBM = " +yBM);
-					System.out.println("yM = " +yM);
-					System.out.println("yS = " +yS);
-					System.out.println("yD = " +yD);
-					System.out.println("yBD = " +yBD);
+					/**
+					 * Wykres wyjścia Y.
+					 */
+					double yBMd = yBM*100;
+			        double yMd = yM*100;
+			        double ySd = yS*100;
+			        double yDd = yD*100;
+			        double yBDd = yBD*100;
+			        int yBMi = (int) yBMd;
+			        int yMi = (int) yMd;
+			        int ySi = (int) ySd;
+			        int yDi = (int) yDd;
+			        int yBDi = (int) yBDd;
+			        int szerokosc = 400;
+			        int wysokosc = 400;
+			        File plikx = new File("X.png");
+			        File pliky = new File("Y.png");
+			        BufferedImage obrazx = new BufferedImage(szerokosc, wysokosc,
+			        		BufferedImage.TYPE_INT_ARGB);
+			        BufferedImage obrazy = new BufferedImage(szerokosc, wysokosc,
+			        		BufferedImage.TYPE_INT_ARGB);
+		            obrazx = ImageIO.read(plikx);
+		            ImageIO.write(obrazx, "png", pliky);
+		            obrazy = ImageIO.read(pliky);
+		            Graphics2D grafikay = obrazy.createGraphics();
+		            grafikay.setColor(Color.CYAN);
+		            grafikay.drawLine(0, 150, 0, 150-yBMi);
+		            grafikay.setColor(Color.BLUE);
+		            grafikay.drawLine(50, 150, 50, 150-yMi);
+		            grafikay.setColor(Color.BLACK);
+		            grafikay.drawLine(100, 150, 100, 150-ySi);
+		            grafikay.setColor(Color.RED);
+		            grafikay.drawLine(150, 150, 150, 150-yDi);
+		            grafikay.setColor(Color.ORANGE);
+		            grafikay.drawLine(200, 150, 200, 150-yBDi);
+		            ImageIO.write(obrazy, "png", pliky);
 					/**
 					 * Wyjście Y.
 					 */
@@ -1084,11 +1195,42 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 					yS = yS/2;
 					yD = yD/2;
 					yBD = yBD/2;
-					System.out.println("yBM = " +yBM);
-					System.out.println("yM = " +yM);
-					System.out.println("yS = " +yS);
-					System.out.println("yD = " +yD);
-					System.out.println("yBD = " +yBD);
+					/**
+					 * Wykres wyjścia Y.
+					 */
+					double yBMd = yBM*100;
+			        double yMd = yM*100;
+			        double ySd = yS*100;
+			        double yDd = yD*100;
+			        double yBDd = yBD*100;
+			        int yBMi = (int) yBMd;
+			        int yMi = (int) yMd;
+			        int ySi = (int) ySd;
+			        int yDi = (int) yDd;
+			        int yBDi = (int) yBDd;
+			        int szerokosc = 400;
+			        int wysokosc = 400;
+			        File plikx = new File("X.png");
+			        File pliky = new File("Y.png");
+			        BufferedImage obrazx = new BufferedImage(szerokosc, wysokosc,
+			        		BufferedImage.TYPE_INT_ARGB);
+			        BufferedImage obrazy = new BufferedImage(szerokosc, wysokosc,
+			        		BufferedImage.TYPE_INT_ARGB);
+		            obrazx = ImageIO.read(plikx);
+		            ImageIO.write(obrazx, "png", pliky);
+		            obrazy = ImageIO.read(pliky);
+		            Graphics2D grafikay = obrazy.createGraphics();
+		            grafikay.setColor(Color.CYAN);
+		            grafikay.drawLine(0, 150, 0, 150-yBMi);
+		            grafikay.setColor(Color.BLUE);
+		            grafikay.drawLine(50, 150, 50, 150-yMi);
+		            grafikay.setColor(Color.BLACK);
+		            grafikay.drawLine(100, 150, 100, 150-ySi);
+		            grafikay.setColor(Color.RED);
+		            grafikay.drawLine(150, 150, 150, 150-yDi);
+		            grafikay.setColor(Color.ORANGE);
+		            grafikay.drawLine(200, 150, 200, 150-yBDi);
+		            ImageIO.write(obrazy, "png", pliky);
 					/**
 					 * Wyjście Y.
 					 */
