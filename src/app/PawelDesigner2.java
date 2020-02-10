@@ -11,7 +11,8 @@ import javax.imageio.*;
 import javax.swing.*;
 
 /**
- * Klasa PawelDesigner2 zawiera konstruktor i metody actionPerformed() i main().
+ * Klasa PawelDesigner2 zawiera konstruktor i metody resetEtykiet(),
+ * actionPerformed() i main().
  * @author Paweł Dudzik.
  */
 public class PawelDesigner2 extends JFrame implements ActionListener
@@ -30,7 +31,7 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 			new JLabel("R6"), new JLabel("R7"), new JLabel("R8")};
 	static JTextArea reguly = new JTextArea(9,20);
 	/**
-	 * Konstruktor służy do stworzenia okna programu.
+	 * Konstruktor służy do zdefiniowania okna programu.
 	 */
 	public PawelDesigner2()
 	{
@@ -63,6 +64,9 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 			panel.add(przycisk[i]);
 		}
 	}
+	/**
+	 * Metoda resetEtykiet() zmienia kolor etykiet na szary.
+	 */
 	private static void resetEtykiet()
 	{
 		for (int i=0;i<9;i++)
@@ -131,20 +135,8 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 			 */
 			try
 			{
-		        double x0Md = x0M*100;
-		        double x0Sd = x0S*100;
-		        double x0Dd = x0D*100;
-		        double x1Md = x1M*100;
-		        double x1Sd = x1S*100;
-		        double x1Dd = x1D*100;
-		        int x0Mi = (int) x0Md;
-		        int x0Si = (int) x0Sd;
-		        int x0Di = (int) x0Dd;
-		        int x1Mi = (int) x1Md;
-		        int x1Si = (int) x1Sd;
-		        int x1Di = (int) x1Dd;
-		        int szerokosc = 400;
-		        int wysokosc = 400;
+		        int szerokosc = 201;
+		        int wysokosc = 101;
 		        File plikx = new File("X.png");
 		        File plikx0 = new File("X0.png");
 		        File plikx1 = new File("X1.png");
@@ -156,24 +148,16 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 		        		BufferedImage.TYPE_INT_ARGB);
 	            obrazx = ImageIO.read(plikx);
 	            ImageIO.write(obrazx, "png", plikx0);
-	            obrazx0 = ImageIO.read(plikx0);
 	            ImageIO.write(obrazx, "png", plikx1);
+	            obrazx0 = ImageIO.read(plikx0);
 	            obrazx1 = ImageIO.read(plikx1);
 	            Graphics2D grafikax0 = obrazx0.createGraphics();
-	            grafikax0.setColor(Color.BLUE);
-	            grafikax0.drawLine(50, 150, 50, 150-x0Mi);
 	            grafikax0.setColor(Color.BLACK);
-	            grafikax0.drawLine(100, 150, 100, 150-x0Si);
-	            grafikax0.setColor(Color.RED);
-	            grafikax0.drawLine(150, 150, 150, 150-x0Di);
-	            ImageIO.write(obrazx0, "png", plikx0);
+	            grafikax0.drawLine(0+x0*20, 100, 0+x0*20, 0);
 	            Graphics2D grafikax1 = obrazx1.createGraphics();
-	            grafikax1.setColor(Color.BLUE);
-	            grafikax1.drawLine(50, 150, 50, 150-x1Mi);
 	            grafikax1.setColor(Color.BLACK);
-	            grafikax1.drawLine(100, 150, 100, 150-x1Si);
-	            grafikax1.setColor(Color.RED);
-	            grafikax1.drawLine(150, 150, 150, 150-x1Di);
+	            grafikax1.drawLine(0+x1*20, 100, 0+x1*20, 0);
+	            ImageIO.write(obrazx0, "png", plikx0);
 	            ImageIO.write(obrazx1, "png", plikx1);
 			}
 			catch (Exception e)
@@ -509,6 +493,13 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 						}
 					}
 					/**
+					 * Wyjście Y.
+					 */
+					int BM = 0, M = 25, S = 50, D = 75, BD = 100;
+					double yy = (yBM*BM+yM*M+yS*S+yD*D+yBD*BD)/(yBM+yM+yS+yD+yBD);
+					int y = (int) yy;
+					pasek.setValue(y);
+					/**
 					 * Wykres wyjścia Y.
 					 */
 					double yBMd = yBM*100;
@@ -521,36 +512,67 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 			        int ySi = (int) ySd;
 			        int yDi = (int) yDd;
 			        int yBDi = (int) yBDd;
-			        int szerokosc = 400;
-			        int wysokosc = 400;
-			        File plikx = new File("X.png");
+			        int szerokosc = 201;
+			        int wysokosc = 101;
+			        File plikyy = new File("YY.png");
 			        File pliky = new File("Y.png");
-			        BufferedImage obrazx = new BufferedImage(szerokosc, wysokosc,
+			        BufferedImage obrazyy = new BufferedImage(szerokosc, wysokosc,
 			        		BufferedImage.TYPE_INT_ARGB);
 			        BufferedImage obrazy = new BufferedImage(szerokosc, wysokosc,
 			        		BufferedImage.TYPE_INT_ARGB);
-		            obrazx = ImageIO.read(plikx);
-		            ImageIO.write(obrazx, "png", pliky);
+		            obrazyy = ImageIO.read(plikyy);
+		            ImageIO.write(obrazyy, "png", pliky);
 		            obrazy = ImageIO.read(pliky);
 		            Graphics2D grafikay = obrazy.createGraphics();
-		            grafikay.setColor(Color.CYAN);
-		            grafikay.drawLine(0, 150, 0, 150-yBMi);
-		            grafikay.setColor(Color.BLUE);
-		            grafikay.drawLine(50, 150, 50, 150-yMi);
-		            grafikay.setColor(Color.BLACK);
-		            grafikay.drawLine(100, 150, 100, 150-ySi);
-		            grafikay.setColor(Color.RED);
-		            grafikay.drawLine(150, 150, 150, 150-yDi);
 		            grafikay.setColor(Color.ORANGE);
-		            grafikay.drawLine(200, 150, 200, 150-yBDi);
+		            grafikay.drawLine(0, 100, 0, 100-yBMi);
+		            grafikay.setColor(Color.RED);
+		            grafikay.drawLine(50, 100, 50, 100-yMi);
+		            grafikay.setColor(Color.BLUE);
+		            grafikay.drawLine(100, 100, 100, 100-ySi);
+		            grafikay.setColor(Color.GREEN);
+		            grafikay.drawLine(150, 100, 150, 100-yDi);
+		            grafikay.setColor(Color.CYAN);
+		            grafikay.drawLine(200, 100, 200, 100-yBDi);
+		            grafikay.setColor(Color.BLACK);
+		            grafikay.drawLine(0+y*2, 100, 0+y*2, 0);
 		            ImageIO.write(obrazy, "png", pliky);
-					/**
-					 * Wyjście Y.
+		            /**
+					 * Wyświetlanie okna z wykresami.
 					 */
-					int BM = 0, M = 25, S = 50, D = 75, BD = 100;
-					double yy = (yBM*BM+yM*M+yS*S+yD*D+yBD*BD)/(yBM+yM+yS+yD+yBD);
-					int y = (int) yy;
-					pasek.setValue(y);
+		            File plikx0 = new File("X0.png");
+			        File plikx1 = new File("X1.png");
+			        BufferedImage obrazx0 = new BufferedImage(szerokosc, wysokosc,
+			        		BufferedImage.TYPE_INT_ARGB);
+			        BufferedImage obrazx1 = new BufferedImage(szerokosc, wysokosc,
+			        		BufferedImage.TYPE_INT_ARGB);
+		            obrazx0 = ImageIO.read(plikx0);
+		            obrazx1 = ImageIO.read(plikx1);
+		            ImageIcon ikonax0 = new ImageIcon(obrazx0);
+		            ImageIcon ikonax1 = new ImageIcon(obrazx1);
+		            ImageIcon ikonay = new ImageIcon(obrazy);
+		            JFrame okno = new JFrame();
+			        okno.setTitle("Wykresy");
+			        okno.setSize(218,415);
+			        okno.setVisible(true);
+			        okno.setResizable(false);
+			        JPanel panelo = new JPanel();
+			        okno.add(panelo);
+			        JLabel etykietatx0 = new JLabel("X0");
+			        panelo.add(etykietatx0);
+			        JLabel etykietaox0 = new JLabel();
+			        etykietaox0.setIcon(ikonax0);
+			        panelo.add(etykietaox0);
+			        JLabel etykietatx1 = new JLabel("X1");
+			        panelo.add(etykietatx1);
+			        JLabel etykietaox1 = new JLabel();
+			        etykietaox1.setIcon(ikonax1);
+			        panelo.add(etykietaox1);
+			        JLabel etykietaty = new JLabel("Y");
+			        panelo.add(etykietaty);
+			        JLabel etykietaoy = new JLabel();
+			        etykietaoy.setIcon(ikonay);
+			        panelo.add(etykietaoy);
 				}
 				catch (Exception e)
 				{
@@ -850,6 +872,13 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 						}
 					}
 					/**
+					 * Wyjście Y.
+					 */
+					int BM = 0, M = 25, S = 50, D = 75, BD = 100;
+					double yy = (yBM*BM+yM*M+yS*S+yD*D+yBD*BD)/(yBM+yM+yS+yD+yBD);
+					int y = (int) yy;
+					pasek.setValue(y);
+					/**
 					 * Wykres wyjścia Y.
 					 */
 					double yBMd = yBM*100;
@@ -862,36 +891,67 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 			        int ySi = (int) ySd;
 			        int yDi = (int) yDd;
 			        int yBDi = (int) yBDd;
-			        int szerokosc = 400;
-			        int wysokosc = 400;
-			        File plikx = new File("X.png");
+			        int szerokosc = 201;
+			        int wysokosc = 101;
+			        File plikyy = new File("YY.png");
 			        File pliky = new File("Y.png");
-			        BufferedImage obrazx = new BufferedImage(szerokosc, wysokosc,
+			        BufferedImage obrazyy = new BufferedImage(szerokosc, wysokosc,
 			        		BufferedImage.TYPE_INT_ARGB);
 			        BufferedImage obrazy = new BufferedImage(szerokosc, wysokosc,
 			        		BufferedImage.TYPE_INT_ARGB);
-		            obrazx = ImageIO.read(plikx);
-		            ImageIO.write(obrazx, "png", pliky);
+		            obrazyy = ImageIO.read(plikyy);
+		            ImageIO.write(obrazyy, "png", pliky);
 		            obrazy = ImageIO.read(pliky);
 		            Graphics2D grafikay = obrazy.createGraphics();
-		            grafikay.setColor(Color.CYAN);
-		            grafikay.drawLine(0, 150, 0, 150-yBMi);
-		            grafikay.setColor(Color.BLUE);
-		            grafikay.drawLine(50, 150, 50, 150-yMi);
-		            grafikay.setColor(Color.BLACK);
-		            grafikay.drawLine(100, 150, 100, 150-ySi);
-		            grafikay.setColor(Color.RED);
-		            grafikay.drawLine(150, 150, 150, 150-yDi);
 		            grafikay.setColor(Color.ORANGE);
-		            grafikay.drawLine(200, 150, 200, 150-yBDi);
+		            grafikay.drawLine(0, 100, 0, 100-yBMi);
+		            grafikay.setColor(Color.RED);
+		            grafikay.drawLine(50, 100, 50, 100-yMi);
+		            grafikay.setColor(Color.BLUE);
+		            grafikay.drawLine(100, 100, 100, 100-ySi);
+		            grafikay.setColor(Color.GREEN);
+		            grafikay.drawLine(150, 100, 150, 100-yDi);
+		            grafikay.setColor(Color.CYAN);
+		            grafikay.drawLine(200, 100, 200, 100-yBDi);
+		            grafikay.setColor(Color.BLACK);
+		            grafikay.drawLine(0+y*2, 100, 0+y*2, 0);
 		            ImageIO.write(obrazy, "png", pliky);
-					/**
-					 * Wyjście Y.
+		            /**
+					 * Wyświetlanie okna z wykresami.
 					 */
-					int BM = 0, M = 25, S = 50, D = 75, BD = 100;
-					double yy = (yBM*BM+yM*M+yS*S+yD*D+yBD*BD)/(yBM+yM+yS+yD+yBD);
-					int y = (int) yy;
-					pasek.setValue(y);
+		            File plikx0 = new File("X0.png");
+			        File plikx1 = new File("X1.png");
+			        BufferedImage obrazx0 = new BufferedImage(szerokosc, wysokosc,
+			        		BufferedImage.TYPE_INT_ARGB);
+			        BufferedImage obrazx1 = new BufferedImage(szerokosc, wysokosc,
+			        		BufferedImage.TYPE_INT_ARGB);
+		            obrazx0 = ImageIO.read(plikx0);
+		            obrazx1 = ImageIO.read(plikx1);
+		            ImageIcon ikonax0 = new ImageIcon(obrazx0);
+		            ImageIcon ikonax1 = new ImageIcon(obrazx1);
+		            ImageIcon ikonay = new ImageIcon(obrazy);
+		            JFrame okno = new JFrame();
+			        okno.setTitle("Wykresy");
+			        okno.setSize(218,415);
+			        okno.setVisible(true);
+			        okno.setResizable(false);
+			        JPanel panelo = new JPanel();
+			        okno.add(panelo);
+			        JLabel etykietatx0 = new JLabel("X0");
+			        panelo.add(etykietatx0);
+			        JLabel etykietaox0 = new JLabel();
+			        etykietaox0.setIcon(ikonax0);
+			        panelo.add(etykietaox0);
+			        JLabel etykietatx1 = new JLabel("X1");
+			        panelo.add(etykietatx1);
+			        JLabel etykietaox1 = new JLabel();
+			        etykietaox1.setIcon(ikonax1);
+			        panelo.add(etykietaox1);
+			        JLabel etykietaty = new JLabel("Y");
+			        panelo.add(etykietaty);
+			        JLabel etykietaoy = new JLabel();
+			        etykietaoy.setIcon(ikonay);
+			        panelo.add(etykietaoy);
 				}
 				catch (Exception e)
 				{
@@ -1196,6 +1256,13 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 					yD = yD/2;
 					yBD = yBD/2;
 					/**
+					 * Wyjście Y.
+					 */
+					int BM = 0, M = 25, S = 50, D = 75, BD = 100;
+					double yy = (yBM*BM+yM*M+yS*S+yD*D+yBD*BD)/(yBM+yM+yS+yD+yBD);
+					int y = (int) yy;
+					pasek.setValue(y);
+					/**
 					 * Wykres wyjścia Y.
 					 */
 					double yBMd = yBM*100;
@@ -1208,36 +1275,67 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 			        int ySi = (int) ySd;
 			        int yDi = (int) yDd;
 			        int yBDi = (int) yBDd;
-			        int szerokosc = 400;
-			        int wysokosc = 400;
-			        File plikx = new File("X.png");
+			        int szerokosc = 201;
+			        int wysokosc = 101;
+			        File plikyy = new File("YY.png");
 			        File pliky = new File("Y.png");
-			        BufferedImage obrazx = new BufferedImage(szerokosc, wysokosc,
+			        BufferedImage obrazyy = new BufferedImage(szerokosc, wysokosc,
 			        		BufferedImage.TYPE_INT_ARGB);
 			        BufferedImage obrazy = new BufferedImage(szerokosc, wysokosc,
 			        		BufferedImage.TYPE_INT_ARGB);
-		            obrazx = ImageIO.read(plikx);
-		            ImageIO.write(obrazx, "png", pliky);
+		            obrazyy = ImageIO.read(plikyy);
+		            ImageIO.write(obrazyy, "png", pliky);
 		            obrazy = ImageIO.read(pliky);
 		            Graphics2D grafikay = obrazy.createGraphics();
-		            grafikay.setColor(Color.CYAN);
-		            grafikay.drawLine(0, 150, 0, 150-yBMi);
-		            grafikay.setColor(Color.BLUE);
-		            grafikay.drawLine(50, 150, 50, 150-yMi);
-		            grafikay.setColor(Color.BLACK);
-		            grafikay.drawLine(100, 150, 100, 150-ySi);
-		            grafikay.setColor(Color.RED);
-		            grafikay.drawLine(150, 150, 150, 150-yDi);
 		            grafikay.setColor(Color.ORANGE);
-		            grafikay.drawLine(200, 150, 200, 150-yBDi);
+		            grafikay.drawLine(0, 100, 0, 100-yBMi);
+		            grafikay.setColor(Color.RED);
+		            grafikay.drawLine(50, 100, 50, 100-yMi);
+		            grafikay.setColor(Color.BLUE);
+		            grafikay.drawLine(100, 100, 100, 100-ySi);
+		            grafikay.setColor(Color.GREEN);
+		            grafikay.drawLine(150, 100, 150, 100-yDi);
+		            grafikay.setColor(Color.CYAN);
+		            grafikay.drawLine(200, 100, 200, 100-yBDi);
+		            grafikay.setColor(Color.BLACK);
+		            grafikay.drawLine(0+y*2, 100, 0+y*2, 0);
 		            ImageIO.write(obrazy, "png", pliky);
-					/**
-					 * Wyjście Y.
+		            /**
+					 * Wyświetlanie okna z wykresami.
 					 */
-					int BM = 0, M = 25, S = 50, D = 75, BD = 100;
-					double yy = (yBM*BM+yM*M+yS*S+yD*D+yBD*BD)/(yBM+yM+yS+yD+yBD);
-					int y = (int) yy;
-					pasek.setValue(y);
+		            File plikx0 = new File("X0.png");
+			        File plikx1 = new File("X1.png");
+			        BufferedImage obrazx0 = new BufferedImage(szerokosc, wysokosc,
+			        		BufferedImage.TYPE_INT_ARGB);
+			        BufferedImage obrazx1 = new BufferedImage(szerokosc, wysokosc,
+			        		BufferedImage.TYPE_INT_ARGB);
+		            obrazx0 = ImageIO.read(plikx0);
+		            obrazx1 = ImageIO.read(plikx1);
+		            ImageIcon ikonax0 = new ImageIcon(obrazx0);
+		            ImageIcon ikonax1 = new ImageIcon(obrazx1);
+		            ImageIcon ikonay = new ImageIcon(obrazy);
+		            JFrame okno = new JFrame();
+			        okno.setTitle("Wykresy");
+			        okno.setSize(218,415);
+			        okno.setVisible(true);
+			        okno.setResizable(false);
+			        JPanel panelo = new JPanel();
+			        okno.add(panelo);
+			        JLabel etykietatx0 = new JLabel("X0");
+			        panelo.add(etykietatx0);
+			        JLabel etykietaox0 = new JLabel();
+			        etykietaox0.setIcon(ikonax0);
+			        panelo.add(etykietaox0);
+			        JLabel etykietatx1 = new JLabel("X1");
+			        panelo.add(etykietatx1);
+			        JLabel etykietaox1 = new JLabel();
+			        etykietaox1.setIcon(ikonax1);
+			        panelo.add(etykietaox1);
+			        JLabel etykietaty = new JLabel("Y");
+			        panelo.add(etykietaty);
+			        JLabel etykietaoy = new JLabel();
+			        etykietaoy.setIcon(ikonay);
+			        panelo.add(etykietaoy);
 				}
 				catch (Exception e)
 				{
