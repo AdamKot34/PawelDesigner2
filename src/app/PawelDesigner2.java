@@ -36,7 +36,7 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 	public PawelDesigner2()
 	{
 		setTitle("PawelDesigner2");
-		setSize(250,390);
+		setSize(250,400);
 		setLocation(350,0);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -553,7 +553,7 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 		            ImageIcon ikonay = new ImageIcon(obrazy);
 		            JFrame okno = new JFrame();
 			        okno.setTitle("Wykresy");
-			        okno.setSize(218,415);
+			        okno.setSize(222,425);
 			        okno.setVisible(true);
 			        okno.setResizable(false);
 			        JPanel panelo = new JPanel();
@@ -932,7 +932,7 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 		            ImageIcon ikonay = new ImageIcon(obrazy);
 		            JFrame okno = new JFrame();
 			        okno.setTitle("Wykresy");
-			        okno.setSize(218,415);
+			        okno.setSize(222,425);
 			        okno.setVisible(true);
 			        okno.setResizable(false);
 			        JPanel panelo = new JPanel();
@@ -1316,7 +1316,7 @@ public class PawelDesigner2 extends JFrame implements ActionListener
 		            ImageIcon ikonay = new ImageIcon(obrazy);
 		            JFrame okno = new JFrame();
 			        okno.setTitle("Wykresy");
-			        okno.setSize(218,415);
+			        okno.setSize(222,425);
 			        okno.setVisible(true);
 			        okno.setResizable(false);
 			        JPanel panelo = new JPanel();
